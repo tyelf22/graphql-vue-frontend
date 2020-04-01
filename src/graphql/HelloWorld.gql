@@ -1,3 +1,11 @@
-query HelloWorld ($name: String) {
-  hello (name: $name)
+query allPlayers {
+  Players {
+    id
+    firstname
+    lastname
+    team
+    height
+    weight
+    age
+  }
 }

@@ -1,0 +1,19 @@
+mutation AddPlayer(
+  $firstname: String!
+  $lastname: String!
+  $team: String!
+  $height: String
+  $weight: String
+  $age: String
+) {
+  createPlayer(
+    firstname: $firstname
+    lastname: $lastname
+    team: $team
+    height: $height
+    weight: $weight
+    age: $age
+  ) {
+    firstname
+  }
+}

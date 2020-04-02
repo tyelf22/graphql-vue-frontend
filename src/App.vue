@@ -5,26 +5,39 @@
       color="primary"
       dark
     >
+    <v-app-bar-nav-icon></v-app-bar-nav-icon>
+    <v-toolbar-title>NBA Players</v-toolbar-title>
+
+    <v-spacer></v-spacer>
+    
+    <router-link to="/">
+      <v-btn class="mx-2" icon>
+        <v-icon large>mdi-home-variant-outline</v-icon>
+      </v-btn>
+    </router-link>
+
+    <router-link to="/create">
+      <v-btn class="mx-2" icon>
+        <v-icon large>mdi-account-plus</v-icon>
+      </v-btn>
+    </router-link> 
+
+    
     </v-app-bar>
 
+
+
     <v-content>
-      <!-- <ApolloExample/> -->
-      <HelloWorld/>
+      <router-view></router-view>
     </v-content>
   </v-app>
 </template>
 
 <script>
-// import ApolloExample from './components/ApolloExample';
-import HelloWorld from './components/HelloWorld';
+
 
 export default {
   name: 'App',
-
-  components: {
-    // ApolloExample,
-    HelloWorld
-  },
 
   data: () => ({
     //

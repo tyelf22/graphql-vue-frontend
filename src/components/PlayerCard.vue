@@ -1,7 +1,7 @@
 <template>
       <!-- Apollo watched Graphql query -->
     <ApolloQuery
-      :query="require('../graphql/HelloWorld.gql')" 
+      :query="require('../graphql/AllPlayers.gql')" 
       :variables="{searchString}" >
       <template v-slot="{ result: { loading, error, data } }">
         <!-- Loading -->

@@ -12,6 +12,13 @@
 
         <!-- Result -->
         <div v-else-if="data" class="result apollo">
+
+          <v-row justify="center">
+            <v-col cols="12" sm="12" md="8" lg="6" >
+              <v-text-field  solo  v-model="searchString" label="Search Players"></v-text-field>
+            </v-col>
+          </v-row>
+
           <v-row>
             <v-col v-for="(player, i) in data.Players" :key="i">
               <v-card
@@ -52,8 +59,13 @@
     name: 'HelloWorld',
 
     data: () => ({
-      searchString: ""
+      searchString: "",
+      
     }),
+
+    methods: {
+
+    }
   }
 </script>
 

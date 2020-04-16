@@ -15,7 +15,7 @@
 
           <v-row justify="center">
             <v-col cols="12" sm="12" md="8" lg="6" >
-              <v-text-field  solo  v-model="searchString" label="Search Players"></v-text-field>
+              <v-text-field rounded clearable solo v-model="searchString" label="Search Players"></v-text-field>
             </v-col>
           </v-row>
 
@@ -26,10 +26,10 @@
                 width="420"
               >
                 <v-card-text>
-                  <p class="display-1 text--primary">
+                  <p class="title text--primary text-uppercase">
                     {{player.firstname}} {{player.lastname}}
                   </p>
-                  <p>{{player.team}}</p>
+                  <p class="text-uppercase">{{player.team}}</p>
                   <div class="text--primary">
                     Height: {{player.height}} <br/>
                     Weight: {{player.weight}}

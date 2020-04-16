@@ -23,7 +23,7 @@
         <v-text-field v-model="age" label="Age"></v-text-field>
         
         <v-btn large color="primary" :disabled="loading" @click="mutate">Add Player</v-btn>
-        <v-btn large color="error" @click="reset">Reset</v-btn>
+        <v-btn large color="error" class="mx-2" @click="reset">Reset</v-btn>
         <p v-if="error">An error occured: {{ error }}</p>
       </v-container>
     </v-form>

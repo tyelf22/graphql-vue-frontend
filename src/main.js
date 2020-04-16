@@ -3,6 +3,7 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify';
 import { createProvider } from './vue-apollo'
 import VueRouter from 'vue-router'
+import Home from './components/Home'
 import PlayerCard from './components/PlayerCard'
 import AddPlayer from './components/AddPlayer'
 
@@ -12,7 +13,8 @@ Vue.config.productionTip = false
 
 const router = new VueRouter({
   routes: [
-    {path: '/', component: PlayerCard},
+    {path: '/', component: Home},
+    {path: '/topplayers', component: PlayerCard},
     {path: '/create', component: AddPlayer }
   ],
   mode: 'history'

@@ -3,6 +3,7 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify';
 import { createProvider } from './vue-apollo'
 import VueRouter from 'vue-router'
+import { store } from './store/store.js'
 import Home from './components/Home'
 import PlayerCard from './components/PlayerCard'
 import AddPlayer from './components/AddPlayer'
@@ -22,6 +23,7 @@ const router = new VueRouter({
 
 new Vue({
   router,
+  store,
   vuetify,
   apolloProvider: createProvider(),
   render: h => h(App)

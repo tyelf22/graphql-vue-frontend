@@ -39,7 +39,7 @@
                   <v-card-title class="headline">Add A New Player</v-card-title>
 
                   <v-card-text>Add any current NBA player</v-card-text>
-                  <v-form ref="form">
+                  <v-form v-on:submit.prevent="mutate()" ref="form">
                     <v-container>
                       <v-text-field v-model="firstname" label="First Name"></v-text-field>
                       <v-text-field v-model="lastname" label="Last Name"></v-text-field>
@@ -47,7 +47,7 @@
                       <v-text-field v-model="height" label="Height"></v-text-field>
                       <v-text-field v-model="weight" label="Weight"></v-text-field>
                       <v-text-field v-model="age" label="Age"></v-text-field>
-                      <v-btn large color="primary" :disabled="loading" @click="mutate">Add Player</v-btn>
+                      <v-btn large color="primary" :disabled="loading" @click="mutate()">Add Player</v-btn>
                       <v-btn large color="warning" class="mx-2" @click="reset">Reset</v-btn>
                       <v-btn large color="error" @click="dialog = false">Close</v-btn>
                       <p v-if="error">An error occured: {{ error }}</p>

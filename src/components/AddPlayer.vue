@@ -1,55 +1,58 @@
 <template>
-  <ApolloMutation
-    :mutation="require('../graphql/AddPlayer.gql')"
-    :variables="{
-      firstname,
-      lastname,
-      team,
-      height,
-      weight,
-      age
-    }"
-    @done="onDone"
-  >
-  <template v-slot="{ mutate, loading, error }">
-    <!-- Form here -->
-    <v-form ref="form">
-      <v-container>
-        <v-text-field v-model="firstname" label="First Name"></v-text-field>
-        <v-text-field v-model="lastname" label="Last Name"></v-text-field>
-        <v-text-field v-model="team" label="team"></v-text-field>
-        <v-text-field v-model="height" label="Height"></v-text-field>
-        <v-text-field v-model="weight" label="Weight"></v-text-field>
-        <v-text-field v-model="age" label="Age"></v-text-field>
-        
-        <v-btn large color="primary" :disabled="loading" @click="mutate">Add Player</v-btn>
-        <v-btn large color="error" class="mx-2" @click="reset">Reset</v-btn>
-        <p v-if="error">An error occured: {{ error }}</p>
-      </v-container>
-    </v-form>
-  </template>
-  </ApolloMutation>
+  <div>
+    <v-row>
+      <v-col>
+        <v-btn @click="getData">Test</v-btn>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
+
+
+
+
 <script>
-  export default {
-    data: function() {
-      return {
-      firstname: '',
-      lastname: '',
-      team: '',
-      height: '',
-      weight: '',
-      age: ''
-      }
-    },
-    methods: {
-      onDone() {
-        return console.log('Done')
-      },
-      reset () {
-        this.$refs.form.reset()
-      },
+import axios from 'axios'
+
+export default {
+  data() {
+    return {
+      firstName: "",
+      lastName: ""
+    }
+  },
+  methods: {
+    getData() {
+        axios.get("https://te-restapi.herokuapp.com/players") // axios request
+       .then(response => {
+         //set variables to responses
+         console.log('api promise fulfilled')
+         console.log(response.data)
+        //  this.firstName = response.data.data[0].first_name
+        //  this.lastName = response.data.data[0].last_name
+        //  this.heightFeet = response.data.data[0].height_feet
+        //  this.heightInches = response.data.data[0].height_inches
+        //  this.weight = response.data.data[0].weight_pounds
+        //  this.team = response.data.data[0].team.full_name
+        //  this.id = response.data.data[0].id
+        })
+
+       .catch(error => {
+         console.log('there was an error!!!')
+         console.log(error) // eslint-disable-line no-console
+         this.alert = true;
+         this.resetAlert();
+       })
     }
   }
+}
 </script>
+
+
+
+
+
+<style scoped>
+
+</style>

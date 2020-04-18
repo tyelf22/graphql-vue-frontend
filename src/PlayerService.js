@@ -23,9 +23,23 @@ class PlayerService {
         })
     }
 
-    //Delete Players
+    // Delete Players
     static deletePlayer(id) {
         return axios.delete(`${editUrl}${id}`)
+    }
+
+    // Edit Player 
+    static updatePlayer(id, firstname, lastname, team) {
+        return axios.put(`${editUrl}${id}`, {
+            firstname,
+            lastname,
+            team
+        })
+    }
+
+    // Get Player 
+    static getPlayer(id) {
+        return axios.get(`${editUrl}${id}`)
     }
 }
 

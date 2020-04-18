@@ -10,6 +10,7 @@
     <v-row justify="center">
       <v-btn color="primary" class="mb-5" dark @click.stop="dialog = true">Add Player</v-btn>
 
+      <!-- Create Player Dialog -->
       <v-dialog v-model="dialog" max-width="500">
         <v-card>
               <v-card-title class="headline">Add A New Player</v-card-title>
@@ -20,10 +21,6 @@
                   <v-text-field v-model="firstname" label="First Name"></v-text-field>
                   <v-text-field v-model="lastname" label="Last Name"></v-text-field>
                   <v-text-field v-model="team" label="Team"></v-text-field>
-                  <!-- <v-text-field v-model="team" label="team"></v-text-field>
-                  <v-text-field v-model="height" label="Height"></v-text-field>
-                  <v-text-field v-model="weight" label="Weight"></v-text-field>
-                  <v-text-field v-model="age" label="Age"></v-text-field> -->
                   <v-btn large color="primary" @click="createPlayer">Add Player</v-btn>
                   <v-btn large color="warning" class="mx-2" @click="reset">Reset</v-btn>
                   <v-btn large color="error" @click="dialog = false">Close</v-btn>
@@ -32,6 +29,43 @@
         </v-card>
       </v-dialog>
     </v-row>
+
+    <!-- Edit Dialog -->
+    <v-row justify="center">
+      <!-- <v-btn color="primary" class="mb-5" dark @click.stop="dialog = true">Add Player</v-btn> -->
+
+      <v-dialog v-model="editDialog" max-width="500">
+        <v-card>
+              <v-card-title class="headline">Add A New Player</v-card-title>
+
+              <v-card-text>Add any current NBA player</v-card-text>
+              <v-form ref="form">
+                <v-container>
+                  <v-text-field v-model="firstname" label="First Name"></v-text-field>
+                  <v-text-field v-model="lastname" label="Last Name"></v-text-field>
+                  <v-text-field v-model="team" label="Team"></v-text-field>
+                  <v-btn large color="primary" @click="updatePlayer(playerID)">Add Player</v-btn>
+                  <v-btn large color="warning" class="mx-2" @click="reset">Reset</v-btn>
+                  <v-btn large color="error" @click="editDialog = false">Close</v-btn>
+                </v-container>
+              </v-form>
+        </v-card>
+      </v-dialog>
+    </v-row>
+
+    <!-- Loading -->
+    <v-container v-if="loading">
+      <v-row justify="center">
+        <div class="text-center">
+          <v-progress-circular
+          :size="50"
+          :width="7"
+          color="primary"
+          indeterminate
+        ></v-progress-circular>
+        </div>
+      </v-row>
+    </v-container>
 
     <!-- Player Cards -->
     <v-row>
@@ -49,6 +83,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-btn @click="deletePlayer(player._id)" color="red" dark><v-icon>mdi-delete</v-icon></v-btn>
+                <v-btn @click="updatePlayerDialog(player._id)" color="yellow" dark><v-icon>mdi-pencil</v-icon></v-btn>
               </v-card-actions>
             </v-card>
       </v-col>
@@ -72,25 +107,16 @@ export default {
       allPlayers: null,
       players: [],
       error: "",
+      loading: true,
+      editDialog: false,
+      playerID: '',
     }
   },
 
   async created() {
-      // axios.get("https://te-restapi.herokuapp.com/players") // axios request
-      // .then(response => {
-      //   //set variables to responses
-      //   console.log('api promise fulfilled')
-      //   console.log(response.data)
-      //   this.allPlayers = response.data
-      // })
-      // .catch(error => {
-      //   console.log('there was an error!!!')
-      //   console.log(error) // eslint-disable-line no-console
-      //   this.alert = true;
-      //   this.resetAlert();
-      // })
       try {
         this.players = await PlayerService.getPlayers()
+        this.loading = false
         console.log('lifecycle ' + this.players)
       } catch(err) {
         this.error = err.message
@@ -99,6 +125,9 @@ export default {
   },
 
   methods: {
+    reset() {
+      this.$refs.form.reset();
+    },
     async deletePlayer(id) {
       console.log('deleted')
       await PlayerService.deletePlayer(id)
@@ -106,6 +135,22 @@ export default {
     },
     async createPlayer() {
       await PlayerService.createPlayer(this.firstname, this.lastname, this.team)
+      this.players = await PlayerService.getPlayers()
+    },
+    async updatePlayerDialog(id) {
+      this.editDialog = true
+      this.playerID = id
+      console.log(this.playerID)
+    },
+    async getPlayer(id) {
+      await PlayerService.getPlayer(id)
+      console.log(id)
+    },
+    async updatePlayer(id) {
+      console.log(this.playerID)
+      console.log(id)
+
+      await PlayerService.updatePlayer(id, this.firstname, this.lastname, this.team)
       this.players = await PlayerService.getPlayers()
     }
   }

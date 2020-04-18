@@ -22,7 +22,7 @@
       </v-btn>
     </router-link>
 
-    <router-link to="/create">
+    <router-link to="/rest">
       <v-btn class="mx-2" icon>
         <v-icon large>mdi-account-plus</v-icon>
       </v-btn>

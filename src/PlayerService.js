@@ -40,6 +40,10 @@ class PlayerService {
     // Get Player 
     static getPlayer(id) {
         return axios.get(`${editUrl}${id}`)
+        .then(response => {
+            const data = response.data
+            return data
+        })
     }
 }
 

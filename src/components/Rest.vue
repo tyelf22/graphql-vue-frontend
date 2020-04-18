@@ -16,6 +16,17 @@
               <v-card-title class="headline">Add A New Player</v-card-title>
 
               <v-card-text>Add any current NBA player</v-card-text>
+                <v-alert
+                  v-model="addAlert"
+                  border="left"
+                  close-text="Close Alert"
+                  color="green accent-4"
+                  dark
+                  dismissible
+                >
+                Player Added Successfully
+                </v-alert>
+
               <v-form ref="form">
                 <v-container>
                   <v-text-field v-model="firstname" label="First Name"></v-text-field>
@@ -39,11 +50,22 @@
               <v-card-title class="headline">Add A New Player</v-card-title>
 
               <v-card-text>Add any current NBA player</v-card-text>
+                  <v-alert
+                  v-model="alert"
+                  border="left"
+                  close-text="Close Alert"
+                  color="green accent-4"
+                  dark
+                  dismissible
+                >
+                Player Updated Successfully
+                </v-alert>
+
               <v-form ref="form">
                 <v-container>
-                  <v-text-field v-model="firstname" label="First Name"></v-text-field>
-                  <v-text-field v-model="lastname" label="Last Name"></v-text-field>
-                  <v-text-field v-model="team" label="Team"></v-text-field>
+                  <v-text-field v-model="singlePlayer.firstname" label="First Name"></v-text-field>
+                  <v-text-field v-model="singlePlayer.lastname" label="Last Name"></v-text-field>
+                  <v-text-field v-model="singlePlayer.team" label="Team"></v-text-field>
                   <v-btn large color="primary" @click="updatePlayer(playerID)">Add Player</v-btn>
                   <v-btn large color="warning" class="mx-2" @click="reset">Reset</v-btn>
                   <v-btn large color="error" @click="editDialog = false">Close</v-btn>
@@ -110,6 +132,9 @@ export default {
       loading: true,
       editDialog: false,
       playerID: '',
+      singlePlayer: '',
+      alert: false,
+      addAlert: false,
     }
   },
 
@@ -135,22 +160,24 @@ export default {
     },
     async createPlayer() {
       await PlayerService.createPlayer(this.firstname, this.lastname, this.team)
+      this.addAlert = true
+      this.$refs.form.reset();
       this.players = await PlayerService.getPlayers()
     },
     async updatePlayerDialog(id) {
       this.editDialog = true
       this.playerID = id
-      console.log(this.playerID)
+
+      this.getPlayer(id)
     },
     async getPlayer(id) {
-      await PlayerService.getPlayer(id)
-      console.log(id)
+      this.singlePlayer = await PlayerService.getPlayer(id)
+      console.log(this.singlePlayer)
     },
     async updatePlayer(id) {
-      console.log(this.playerID)
-      console.log(id)
-
-      await PlayerService.updatePlayer(id, this.firstname, this.lastname, this.team)
+      console.log(this.singlePlayer.team)
+      await PlayerService.updatePlayer(id, this.singlePlayer.firstname, this.singlePlayer.lastname, this.singlePlayer.team)
+      this.alert = true
       this.players = await PlayerService.getPlayers()
     }
   }

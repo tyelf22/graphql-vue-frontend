@@ -71,6 +71,8 @@
                   Height: {{player.height}}
                   <br />
                   Weight: {{player.weight}}
+                  <br/>
+                  Age: {{player.age}}
                 </div>
               </v-card-text>
               <v-card-actions>

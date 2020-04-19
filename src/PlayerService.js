@@ -15,11 +15,14 @@ class PlayerService {
     }
 
     // Create Players
-    static createPlayer(firstname, lastname, team) {
+    static createPlayer(firstname, lastname, team, height, weight, age) {
         return axios.post(editUrl, {
             firstname,
             lastname,
-            team
+            team,
+            height,
+            weight,
+            age
         })
     }
 
@@ -29,11 +32,14 @@ class PlayerService {
     }
 
     // Edit Player 
-    static updatePlayer(id, firstname, lastname, team) {
+    static updatePlayer(id, firstname, lastname, team, height, weight, age) {
         return axios.put(`${editUrl}${id}`, {
             firstname,
             lastname,
-            team
+            team,
+            height,
+            weight,
+            age
         })
     }
 

@@ -105,18 +105,16 @@
                 <p
                   class="title text--primary text-uppercase">{{player.firstname}} {{player.lastname}}</p>
                 <p class="text-uppercase">{{player.team}}</p>
-                <p class="text-uppercase">{{player.height}}</p>
-                <p class="text-uppercase">{{player.weight}}</p>
-                <p class="text-uppercase">{{player.age}}</p>
-<!--                 <div class="text--primary">
-                  Height: {{player.height}}
-                  <br />
-                  Weight: {{player.weight}}
-                </div> -->
+                <div class="text--primary">
+                  Height: {{player.height}} <br/>
+                  Weight: {{player.weight}} <br/>
+                  Age: {{player.age}} 
+                </div>
               </v-card-text>
               <v-card-actions>
+                <v-btn @click="addRoster(player._id)" dark color="green accent-4">Add To Roster</v-btn>
                 <v-spacer></v-spacer>
-                <v-btn @click="updatePlayerDialog(player._id)" color="yellow lighten-1" dark><v-icon>mdi-pencil</v-icon></v-btn>
+                <v-btn @click="updatePlayerDialog(player._id)" color="primary" dark><v-icon>mdi-pencil</v-icon></v-btn>
                 <v-btn @click="deletePlayer(player._id)" color="red" dark><v-icon>mdi-delete</v-icon></v-btn>
               </v-card-actions>
             </v-card>
@@ -129,6 +127,7 @@
 
 <script>
 import PlayerService from '../PlayerService'
+import { mapMutations } from 'vuex'
 // import axios from 'axios'
 
 export default {
@@ -149,6 +148,7 @@ export default {
       editDialog: false,
       playerID: '',
       singlePlayer: '',
+      addSinglePlayer: '',
       alert: false,
       addAlert: false,
     }
@@ -173,6 +173,7 @@ export default {
   },
 
   methods: {
+    ...mapMutations(['addPlayerStore']),
     reset() {
       this.$refs.form.reset();
 
@@ -209,13 +210,18 @@ export default {
     },
     async getPlayer(id) {
       this.singlePlayer = await PlayerService.getPlayer(id)
-      console.log(this.singlePlayer)
+      console.log('getPlayer called ' + this.singlePlayer)
     },
     async updatePlayer(id) {
       console.log(this.singlePlayer.team)
       await PlayerService.updatePlayer(id, this.singlePlayer.firstname, this.singlePlayer.lastname, this.singlePlayer.team, this.singlePlayer.height, this.singlePlayer.weight, this.singlePlayer.age)
       this.alert = true
       this.players = await PlayerService.getPlayers()
+    },
+    async addRoster(id) {
+      this.addSinglePlayer = await PlayerService.getPlayer(id)
+      console.log('addSinglePlayer ' + this.addSinglePlayer.firstname)
+      this.$store.commit('addPlayerStore', {firstname: this.addSinglePlayer.firstname , lastername: this.addSinglePlayer.lastname , team: this.addSinglePlayer.team , height: this.addSinglePlayer.height , weight: this.addSinglePlayer.weight, age: this.addSinglePlayer.age})
     }
   }
 }

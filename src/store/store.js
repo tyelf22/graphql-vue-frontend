@@ -5,13 +5,15 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
     state: {
-    restPlayers: undefined
+    playerStore: [],
     },
     getters: {
         
     },
     mutations: {
-        
+       addPlayerStore (state, player) {
+           state.playerStore.push(player)
+       } 
     },
     actions: {
         

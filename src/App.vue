@@ -28,6 +28,12 @@
       </v-btn>
     </router-link> 
 
+    <router-link to="/roster">
+      <v-btn class="mx-2" icon>
+        <v-icon large>mdi-cart-outline</v-icon>
+      </v-btn>
+    </router-link> 
+
     
     </v-app-bar>
 

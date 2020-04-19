@@ -7,6 +7,7 @@ import { store } from './store/store.js'
 import Home from './components/Home'
 import PlayerCard from './components/PlayerCard'
 import Rest from './components/Rest'
+import Roster from './components/Roster'
 
 Vue.use(VueRouter)
 
@@ -16,7 +17,8 @@ const router = new VueRouter({
   routes: [
     {path: '/', component: Home},
     {path: '/topplayers', component: PlayerCard},
-    {path: '/rest', component: Rest }
+    {path: '/rest', component: Rest },
+    {path: '/roster', component: Roster}
   ],
   mode: 'history'
 })

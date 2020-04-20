@@ -13,6 +13,9 @@ export const store = new Vuex.Store({
     mutations: {
        addPlayerStore (state, player) {
            state.playerStore.push(player)
+       },
+       deletePlayerStore(state, player) {
+           state.playerStore.splice(player, 1)
        } 
     },
     actions: {

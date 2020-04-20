@@ -98,29 +98,31 @@
     </v-container>
 
     <!-- Player Cards -->
-    <v-row>
-      <v-col v-for="player in searchPlayers" :key="player._id">
-        <v-card class="mx-auto" width="420">
-              <v-card-text>
-                <p
-                  class="title text--primary text-uppercase">{{player.firstname}} {{player.lastname}}</p>
-                <p class="text-uppercase">{{player.team}}</p>
-                <div class="text--primary">
-                  Height: {{player.height}} <br/>
-                  Weight: {{player.weight}} <br/>
-                  Age: {{player.age}} 
-                </div>
-              </v-card-text>
-              <v-card-actions>
-                <v-btn @click="addRoster(player._id)" dark color="green accent-4">Add To Roster</v-btn>
-                <v-spacer></v-spacer>
-                <v-btn @click="updatePlayerDialog(player._id)" color="primary" dark><v-icon>mdi-pencil</v-icon></v-btn>
-                <v-btn @click="deletePlayer(player._id)" color="red" dark><v-icon>mdi-delete</v-icon></v-btn>
-              </v-card-actions>
-            </v-card>
-      </v-col>
-      <p class="error" v-if="error">{{error}}</p>
-    </v-row>
+    <v-container>
+      <v-row>
+        <v-col v-for="player in searchPlayers" :key="player._id">
+          <v-card class="mx-auto" width="350">
+                <v-card-text>
+                  <p
+                    class="title text--primary text-uppercase">{{player.firstname}} {{player.lastname}}</p>
+                  <p class="text-uppercase">{{player.team}}</p>
+                  <div class="text--primary">
+                    Height: {{player.height}} <br/>
+                    Weight: {{player.weight}} <br/>
+                    Age: {{player.age}} 
+                  </div>
+                </v-card-text>
+                <v-card-actions>
+                  <v-btn @click="addRoster(player._id)" dark color="green accent-4"><v-icon>mdi-account-plus-outline</v-icon></v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn @click="updatePlayerDialog(player._id)" color="primary" dark><v-icon>mdi-pencil</v-icon></v-btn>
+                  <v-btn @click="deletePlayer(player._id)" color="red" dark><v-icon>mdi-delete</v-icon></v-btn>
+                </v-card-actions>
+              </v-card>
+        </v-col>
+        <p class="error" v-if="error">{{error}}</p>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
@@ -221,7 +223,7 @@ export default {
     async addRoster(id) {
       this.addSinglePlayer = await PlayerService.getPlayer(id)
       console.log('addSinglePlayer ' + this.addSinglePlayer.firstname)
-      this.$store.commit('addPlayerStore', {firstname: this.addSinglePlayer.firstname , lastername: this.addSinglePlayer.lastname , team: this.addSinglePlayer.team , height: this.addSinglePlayer.height , weight: this.addSinglePlayer.weight, age: this.addSinglePlayer.age})
+      this.$store.commit('addPlayerStore', {firstname: this.addSinglePlayer.firstname , lastname: this.addSinglePlayer.lastname , team: this.addSinglePlayer.team , height: this.addSinglePlayer.height , weight: this.addSinglePlayer.weight, age: this.addSinglePlayer.age})
     }
   }
 }

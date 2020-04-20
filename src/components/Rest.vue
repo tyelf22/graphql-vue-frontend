@@ -1,5 +1,13 @@
 <template>
   <div>
+  <v-container>
+      <v-row>
+          <v-col>
+              <h1 class="py-5 display-2" >REST API</h1> 
+              <hr>
+          </v-col>
+      </v-row>
+  </v-container>
     <!-- Search Player -->
     <v-row justify="center">
       <v-col cols="12" sm="12" md="8" lg="6">
@@ -8,7 +16,7 @@
     </v-row>
     <!-- Add player  -->
     <v-row justify="center">
-      <v-btn color="primary" class="mb-5" dark @click.stop="dialog = true">Add Player</v-btn>
+      <v-btn color="primary" class="mb-5" rounded dark @click.stop="dialog = true">Add New Player <v-icon class="ml-2" >mdi-plus-circle-outline</v-icon></v-btn>
 
       <!-- Create Player Dialog -->
       <v-dialog v-model="dialog" max-width="500">
@@ -74,7 +82,7 @@
                   <v-text-field v-model="singlePlayer.height" label="Height"></v-text-field>
                   <v-text-field v-model="singlePlayer.weight" label="Weight"></v-text-field>
                   <v-text-field v-model="singlePlayer.age" label="Age"></v-text-field>
-                  <v-btn class="my-1 mr-1" large color="primary" dark @click="updatePlayer(playerID)">Edit Player<v-icon class="ml-2">mdi-pencil</v-icon></v-btn>
+                  <v-btn class="my-1 mr-1" large color="primary" dark @click="updatePlayer(playerID)">Update Player<v-icon class="ml-2">mdi-pencil</v-icon></v-btn>
                   <v-btn large color="orange lighten-1" dark class="my-1" @click="reset">Reset Form<v-icon class="ml-2">mdi-autorenew</v-icon></v-btn>
                   <!-- <v-btn large color="error" @click="editDialog = false; alert = false">Close</v-btn> -->
                 </v-container>
@@ -96,6 +104,19 @@
         </div>
       </v-row>
     </v-container>
+
+    <!-- Alert -->
+    <v-container>
+      <v-row>
+        <v-col>
+          <v-alert v-fade:display.delayed="'none'" class="alert mx-auto" color="green accent-4" v-if="alertToggle" v-model="alertToggle" type="success">
+            Player Added
+          </v-alert>
+        </v-col>
+      </v-row>
+    </v-container>
+
+
 
     <!-- Player Cards -->
     <v-container>
@@ -153,6 +174,7 @@ export default {
       addSinglePlayer: '',
       alert: false,
       addAlert: false,
+      alertToggle: false,
     }
   },
 
@@ -224,6 +246,13 @@ export default {
       this.addSinglePlayer = await PlayerService.getPlayer(id)
       console.log('addSinglePlayer ' + this.addSinglePlayer.firstname)
       this.$store.commit('addPlayerStore', {firstname: this.addSinglePlayer.firstname , lastname: this.addSinglePlayer.lastname , team: this.addSinglePlayer.team , height: this.addSinglePlayer.height , weight: this.addSinglePlayer.weight, age: this.addSinglePlayer.age})
+
+      //Toggle alert
+      this.alertToggle = true
+      console.log(this.alertToggle)
+      setTimeout(() => {
+        this.alertToggle = false
+      }, 3000)
     }
   }
 }
@@ -232,5 +261,19 @@ export default {
 
 
 <style scoped>
+.alert {
+  width: 325px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  /* margin-left: -162.5px; Negative half of width. */
+  font-size: 10px;
+  z-index: 99;
+  margin: 35px auto 0 auto;
+  border-radius: 30px;
+  
+  
+}
 
 </style>

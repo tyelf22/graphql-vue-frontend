@@ -24,7 +24,7 @@
 
     <router-link to="/rest">
       <v-btn class="mx-2" icon>
-        <v-icon large>mdi-account-plus</v-icon>
+        <v-icon large>mdi-account-multiple-outline</v-icon>
       </v-btn>
     </router-link> 
 

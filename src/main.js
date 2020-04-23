@@ -5,7 +5,7 @@ import { createProvider } from './vue-apollo'
 import VueRouter from 'vue-router'
 import { store } from './store/store.js'
 import Home from './components/Home'
-import PlayerCard from './components/PlayerCard'
+import Graph from './components/Graph'
 import Rest from './components/Rest'
 import Roster from './components/Roster'
 
@@ -34,7 +34,7 @@ Vue.directive('fade', {
 const router = new VueRouter({
   routes: [
     {path: '/', component: Home},
-    {path: '/topplayers', component: PlayerCard},
+    {path: '/graph', component: Graph},
     {path: '/rest', component: Rest },
     {path: '/roster', component: Roster}
   ],

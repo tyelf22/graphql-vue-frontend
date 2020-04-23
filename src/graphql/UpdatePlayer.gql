@@ -1,0 +1,23 @@
+mutation UpdatePlayer
+    ( 
+    $id: ID!    
+    $firstname: String!
+    $lastname: String!
+    $team: String!
+    $height: String
+    $weight: String
+    $age: String
+    ) {
+    updatePlayer(
+    id: $id
+    firstname: $firstname
+    lastname: $lastname
+    team: $team
+    height: $height
+    weight: $weight
+    age: $age
+  ) {
+    firstname
+  }
+
+}

@@ -61,7 +61,7 @@
 
         <v-row>
           <v-col v-for="(player, i) in data.Players" :key="i">
-            <v-card class="mx-auto" width="420">
+            <v-card class="mx-auto" width="350">
               <v-card-text>
                 <p
                   class="title text--primary text-uppercase"
@@ -76,7 +76,12 @@
                 </div>
               </v-card-text>
               <v-card-actions>
-                <v-btn text color="deep-purple accent-4">Learn More</v-btn>
+                  <v-btn @click="addRoster(player)" dark color="green accent-4"><v-icon>mdi-account-plus-outline</v-icon></v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn @click="updatePlayer(player)" color="primary" dark><v-icon>mdi-pencil</v-icon></v-btn>
+                  <!-- <v-btn @click="deletePlayer(player._id)" color="red" dark><v-icon>mdi-delete</v-icon></v-btn> -->
+                  <v-btn @click="deletePlayer(player)" color="red" dark><v-icon>mdi-delete</v-icon>
+                  </v-btn> 
               </v-card-actions>
             </v-card>
           </v-col>
@@ -90,6 +95,8 @@
 </template>
 
 <script>
+// import gql from 'graphql-tag'
+
 export default {
   name: "HelloWorld",
 
@@ -101,7 +108,9 @@ export default {
     height: "",
     weight: "",
     age: "",
-    dialog: false
+    dialog: false,
+    playerID: null,
+    updatedFirstname: "",
   }),
 
   methods: {
@@ -110,8 +119,39 @@ export default {
       this.$refs.form.reset();
     },
     onDone() {
-      return console.log('Done')
+      console.log('Done')
     },
+    addRoster(player){
+      console.log(player)
+    },
+    deletePlayer(player) {
+      console.log(player.id)
+
+      const playerID = player.id
+      
+      this.$apollo.mutate({
+        mutation: require('../graphql/DeletePlayer.gql'),
+        variables: {
+          id: playerID
+        }
+      })
+    },
+    updatePlayer(player) {
+      const playerID = player.id
+      this.$apollo.mutate({
+        mutation: require('../graphql/UpdatePlayer.gql'),
+        variables: {
+          id: playerID,
+          firstname: "testeee",
+          lastname: "testeee",
+          team: "testeee",
+          height: "testeee",
+          weight: "testee",
+          age: "testeee"
+        }
+      })
+
+    }
   }
 };
 </script>

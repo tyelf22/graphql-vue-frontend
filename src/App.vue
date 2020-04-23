@@ -16,7 +16,7 @@
       </v-btn>
     </router-link>
 
-    <router-link to="/topplayers">
+    <router-link to="/graph">
       <v-btn class="mx-2" icon>
         <v-icon large>mdi-account-multiple-outline</v-icon>
       </v-btn>

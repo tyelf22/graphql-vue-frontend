@@ -1,5 +1,6 @@
-mutation DeletePlayer($id: String!) {
-    deleteOnePlayer(where: {
-        id: $id
-    })
+mutation DeletePlayer($id: ID!) {
+    deleteOnePlayer(id: $id){
+    id
+    firstname
+  }
 }

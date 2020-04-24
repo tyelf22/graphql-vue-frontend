@@ -59,9 +59,6 @@
       <v-dialog v-model="editDialog" max-width="500">
         <v-card>
               <v-card-title class="headline">Edit Player<v-spacer></v-spacer><v-icon large color="error" @click="editDialog = false; alert = false">mdi-close-circle</v-icon></v-card-title>
-              
-              
-
               <v-card-text>Change any of the player fields</v-card-text>
                   <v-alert
                   v-model="alert"

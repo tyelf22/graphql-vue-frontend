@@ -28,7 +28,7 @@
 
           <!-- Mutation to add player  -->
           <v-row justify="center">
-            <v-btn color="primary" class="mb-5" dark @click.stop="dialog = true">Add Player</v-btn>
+            <v-btn color="primary" class="mb-5" dark rounded @click.stop="dialog = true">Add New Player<v-icon class="ml-2" >mdi-plus-circle-outline</v-icon></v-btn>
 
             <v-dialog v-model="dialog" max-width="500">
               <v-card>
@@ -82,7 +82,7 @@
             <!-- Mutation to update player  -->
            <v-dialog v-model="editDialog" max-width="500">
               <v-card>
-                    <v-card-title class="headline">Edit Player<v-spacer></v-spacer><v-icon large color="error" @click="editDialog = false; addAlert = false">mdi-close-circle</v-icon></v-card-title>
+                    <v-card-title class="headline">Edit Player<v-spacer></v-spacer><v-icon large color="error" @click="editDialog = false;">mdi-close-circle</v-icon></v-card-title>
                     <v-card-text>Change any of the player fields</v-card-text>
                       <v-alert
                         v-model="addAlert"
@@ -97,12 +97,12 @@
                     <!-- <v-form v-on:submit.prevent="mutate()" ref="form"> -->
                     <v-form v-on:submit.prevent="mutate()" ref="form">
                       <v-container>
-                        <v-text-field v-model="firstname" label="First Name"></v-text-field>
-                        <v-text-field v-model="lastname" label="Last Name"></v-text-field>
-                        <v-text-field v-model="team" label="team"></v-text-field>
-                        <v-text-field v-model="height" label="Height"></v-text-field>
-                        <v-text-field v-model="weight" label="Weight"></v-text-field>
-                        <v-text-field v-model="age" label="Age"></v-text-field>
+                        <v-text-field v-model="ufirstname" label="First Name"></v-text-field>
+                        <v-text-field v-model="ulastname" label="Last Name"></v-text-field>
+                        <v-text-field v-model="uteam" label="team"></v-text-field>
+                        <v-text-field v-model="uheight" label="Height"></v-text-field>
+                        <v-text-field v-model="uweight" label="Weight"></v-text-field>
+                        <v-text-field v-model="uage" label="Age"></v-text-field>
                         <v-btn large color="primary" :disabled="loading" @click="updatePlayer">Update Player<v-icon class="ml-2">mdi-account-plus-outline</v-icon></v-btn>
                         <v-btn large color="orange lighten-1" dark class="mx-2" @click="reset">Reset<v-icon class="ml-2">mdi-autorenew</v-icon></v-btn>
                         <p v-if="error">An error occured: {{ error }}</p>
@@ -134,7 +134,7 @@
                   <v-card-actions>
                       <v-btn @click="addRoster(player)" dark color="green accent-4"><v-icon>mdi-account-plus-outline</v-icon></v-btn>
                       <v-spacer></v-spacer>
-                      <v-btn @click="updatePlayerDialog(player)" color="primary" dark><v-icon>mdi-pencil</v-icon></v-btn>
+                      <v-btn @click="updatePlayerDialog(player);" color="primary" dark><v-icon>mdi-pencil</v-icon></v-btn>
                       <!-- <v-btn @click="deletePlayer(player._id)" color="red" dark><v-icon>mdi-delete</v-icon></v-btn> -->
                       <v-btn @click="deletePlayer(player)" color="red" dark><v-icon>mdi-delete</v-icon>
                       </v-btn> 
@@ -155,6 +155,8 @@
 <script>
 // import gql from 'graphql-tag'
 
+import { mapMutations } from 'vuex'
+
 export default {
   name: "HelloWorld",
 
@@ -167,15 +169,21 @@ export default {
     height: "",
     weight: "",
     age: "",
+    ufirstname: "",
+    ulastname: "",
+    uteam: "",
+    uheight: "",
+    uweight: "",
+    uage: "",
     dialog: false,
     editDialog: false,
     playerID: null,
-    updatedFirstname: "",
     addAlert: false,
     beginUpdatePlayer: false
   }),
 
   methods: {
+    ...mapMutations(['addPlayerStore']),
     // Reset form
     reset() {
       this.$refs.form.reset()
@@ -184,7 +192,8 @@ export default {
       console.log('Done')
     },
     addRoster(player){
-      console.log(player)
+       this.$store.commit('addPlayerStore', {firstname: player.firstname, lastname: player.lastname, team: player.team, height: player.height, weight: player.weight, age: player.age}  )
+
     },
     addPlayer() {
       console.log('inside of add player dialog')
@@ -206,7 +215,15 @@ export default {
     },
     updatePlayerDialog(player) {
       this.id = player.id
+      this.ufirstname = player.firstname
+      this.ulastname = player.lastname
+      this.uteam = player.team
+      this.uheight = player.height
+      this.uweight = player.weight
+      this.uage = player.age
+
       this.editDialog = true
+      this.addAlert = false
     },
     updatePlayer() {
         const playerID = this.id
@@ -214,14 +231,15 @@ export default {
           mutation: require('../graphql/UpdatePlayer.gql'),
           variables: {
             id: playerID,
-            firstname: this.firstname,
-            lastname: this.lastname,
-            team: this.team,
-            height: this.height,
-            weight: this.weight,
-            age: this.age
+            firstname: this.ufirstname,
+            lastname: this.ulastname,
+            team: this.uteam,
+            height: this.uheight,
+            weight: this.uweight,
+            age: this.uage
           }
         })
+        this.addAlert = true
       }
   }
 };

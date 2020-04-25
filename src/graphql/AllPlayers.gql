@@ -1,5 +1,7 @@
-query allPlayers ($searchString: String) {
-  Players (searchString: $searchString) {
+# query allPlayers ($searchString: String) {
+query allPlayers {
+  # Players (searchString: $searchString) {
+    Players {
     id
     firstname
     lastname

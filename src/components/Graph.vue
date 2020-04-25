@@ -33,7 +33,19 @@
             <v-dialog v-model="dialog" max-width="500">
               <v-card>
                 <ApolloMutation
-                  :mutation="require('../graphql/AddPlayer.gql')"
+                  :mutation="gql => gql`
+                  mutation ( $firstname: String! $lastname: String! $team: String! $height: String $weight: String $age: String){
+                    createPlayer (firstname: $firstname lastname: $lastname team: $team height: $height weight: $weight age: $age){
+                      id
+                      firstname
+                      lastname
+                      team
+                      height
+                      weight
+                      age
+                    }
+                  }
+                  `"
                   :variables="{
                     firstname,
                     lastname,
@@ -42,6 +54,7 @@
                     weight,
                     age
                   }"
+                  :update="updateCreateCache"
                   @done="onDone"
                 >
                   <template v-slot="{ mutate, loading, error }">
@@ -136,7 +149,7 @@
                       <v-spacer></v-spacer>
                       <v-btn @click="updatePlayerDialog(player);" color="primary" dark><v-icon>mdi-pencil</v-icon></v-btn>
                       <!-- <v-btn @click="deletePlayer(player._id)" color="red" dark><v-icon>mdi-delete</v-icon></v-btn> -->
-                      <v-btn @click="deletePlayer(player)" color="red" dark><v-icon>mdi-delete</v-icon>
+                      <v-btn @click="deletePlayer(player, i)" color="red" dark><v-icon>mdi-delete</v-icon>
                       </v-btn> 
                   </v-card-actions>
                 </v-card>
@@ -153,7 +166,7 @@
 </template>
 
 <script>
-// import gql from 'graphql-tag'
+import gql from 'graphql-tag'
 
 import { mapMutations } from 'vuex'
 
@@ -201,7 +214,7 @@ export default {
       this.addAlert = true
 
     },
-    deletePlayer(player) {
+    deletePlayer(player, i) {
       console.log(player.id)
 
       const playerID = player.id
@@ -210,6 +223,29 @@ export default {
         mutation: require('../graphql/DeletePlayer.gql'),
         variables: {
           id: playerID
+        },
+        update: (store, {data: { deleteOnePlayer} }) => {
+          const query = {
+          query: gql `
+          query allPlayers {
+            Players{
+              id
+              firstname
+              lastname
+              team
+              height
+              weight
+              age
+            }
+          }`
+        }
+          console.log(deleteOnePlayer)
+          const data = store.readQuery(query)
+          data.Players.splice(i, 1)
+          store.writeQuery({
+            ...query,
+            data
+          })
         }
       })
     },
@@ -240,6 +276,30 @@ export default {
           }
         })
         this.addAlert = true
+      },
+      updateCreateCache(store, {data: { createPlayer }}) {
+        const query = {
+          query: gql `
+          query allPlayers {
+            Players{
+              id
+              firstname
+              lastname
+              team
+              height
+              weight
+              age
+            }
+          }`
+        }
+        console.log(createPlayer)
+        const data = store.readQuery(query)
+        data.Players.push(createPlayer)
+
+        store.writeQuery({
+          ...query,
+          data,
+        })
       }
   }
 };

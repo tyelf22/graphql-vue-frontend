@@ -3,7 +3,7 @@
   <v-container>
       <v-row>
           <v-col>
-              <h1 class="py-5 display-2" >REST API</h1> 
+              <h1 class="py-5 display-2" >RESTful API CRUD</h1> 
               <hr>
           </v-col>
       </v-row>

@@ -17,7 +17,13 @@ mutation UpdatePlayer
     weight: $weight
     age: $age
   ) {
+    id
     firstname
+    lastname
+    team
+    height
+    weight
+    age
   }
 
 }

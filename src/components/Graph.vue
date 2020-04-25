@@ -3,7 +3,7 @@
   <v-container>
       <v-row>
           <v-col>
-              <h1 class="py-5 display-2" >GraphQL</h1> 
+              <h1 class="py-5 display-2" >GraphQL CRUD</h1> 
               <hr>
           </v-col>
       </v-row>
@@ -107,7 +107,6 @@
                       >
                         Player Updated Successfully
                       </v-alert>
-                    <!-- <v-form v-on:submit.prevent="mutate()" ref="form"> -->
                     <v-form v-on:submit.prevent="mutate()" ref="form">
                       <v-container>
                         <v-text-field v-model="ufirstname" label="First Name"></v-text-field>
@@ -125,6 +124,16 @@
             </v-dialog>
 
 
+            <!-- Alert -->
+            <v-container>
+              <v-row>
+                <v-col>
+                  <v-alert v-fade:display.delayed="'none'" class="alert mx-auto" color="green accent-4" v-if="alertToggle" v-model="alertToggle" type="success">
+                    Player Added
+                  </v-alert>
+                </v-col>
+              </v-row>
+            </v-container>
 
           <!-- Player cards  -->
           <v-container>
@@ -192,30 +201,36 @@ export default {
     editDialog: false,
     playerID: null,
     addAlert: false,
-    beginUpdatePlayer: false
+    beginUpdatePlayer: false,
+    alertToggle: false,
   }),
 
   methods: {
     ...mapMutations(['addPlayerStore']),
+
     // Reset form
     reset() {
       this.$refs.form.reset()
     },
-    onDone() {
-      console.log('Done')
-    },
     addRoster(player){
        this.$store.commit('addPlayerStore', {firstname: player.firstname, lastname: player.lastname, team: player.team, height: player.height, weight: player.weight, age: player.age}  )
 
+      //Toggle alert
+      this.alertToggle = true
+      setTimeout(() => {
+        this.alertToggle = false
+      }, 3000)
+
     },
+    //reset from and toggle alert after player added
     addPlayer() {
-      console.log('inside of add player dialog')
       this.$refs.form.reset()
       this.addAlert = true
 
     },
+
+    //delete player using mutation and then update cache
     deletePlayer(player, i) {
-      console.log(player.id)
 
       const playerID = player.id
       
@@ -224,11 +239,11 @@ export default {
         variables: {
           id: playerID
         },
-        update: (store, {data: { deleteOnePlayer} }) => {
+        update: (store, {data: { deleteOnePlayer } }) => {
           const query = {
           query: gql `
-          query allPlayers {
-            Players{
+          query allPlayers ($searchString: String = "")  {
+            Players (searchString: $searchString) {
               id
               firstname
               lastname
@@ -249,6 +264,8 @@ export default {
         }
       })
     },
+
+    //toggle dialog to update player and populate player name into updated player variables
     updatePlayerDialog(player) {
       this.id = player.id
       this.ufirstname = player.firstname
@@ -261,6 +278,8 @@ export default {
       this.editDialog = true
       this.addAlert = false
     },
+
+    //update player mutation and update cache
     updatePlayer() {
         const playerID = this.id
         this.$apollo.mutate({
@@ -273,15 +292,12 @@ export default {
             height: this.uheight,
             weight: this.uweight,
             age: this.uage
-          }
-        })
-        this.addAlert = true
-      },
-      updateCreateCache(store, {data: { createPlayer }}) {
-        const query = {
+          },
+          update: (store, {data: { updatePlayer } }) => {
+          const query = {
           query: gql `
-          query allPlayers {
-            Players{
+          query allPlayers ($searchString: String = "")  {
+            Players (searchString: $searchString) {
               id
               firstname
               lastname
@@ -292,7 +308,34 @@ export default {
             }
           }`
         }
-        console.log(createPlayer)
+          console.log(updatePlayer)
+          const data = store.readQuery(query)
+          store.writeQuery({
+            ...query,
+            data
+          })
+        }
+
+        })
+        this.addAlert = true
+      },
+
+      //update the cache after adding new player
+      updateCreateCache(store, {data: { createPlayer }}) {
+        const query = {
+          query: gql `
+          query allPlayers ($searchString: String = "") {
+            Players (searchString: $searchString) {
+              id
+              firstname
+              lastname
+              team
+              height
+              weight
+              age
+            }
+          }`
+        }
         const data = store.readQuery(query)
         data.Players.push(createPlayer)
 
@@ -308,5 +351,19 @@ export default {
 <style scoped>
 .result {
   padding: 1rem;
+}
+
+.alert {
+  width: 325px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  font-size: 10px;
+  z-index: 99;
+  margin: 35px auto 0 auto;
+  border-radius: 30px;
+  
+  
 }
 </style>

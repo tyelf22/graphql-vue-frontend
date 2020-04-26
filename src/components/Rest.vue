@@ -41,8 +41,8 @@
                   <v-text-field v-model="lastname" label="Last Name"></v-text-field>
                   <v-select :items="items" v-model="team" :rules="teamRules" required label="Team"></v-select>
                   <v-text-field v-model="height" label="Height"></v-text-field>
-                  <v-text-field v-model="weight" label="Weight"></v-text-field>
-                  <v-text-field v-model="age" label="Age"></v-text-field>
+                  <v-text-field v-model="weight" :rules="numberRules" label="Weight"></v-text-field>
+                  <v-text-field v-model="age" :rules="numberRules" label="Age"></v-text-field>
                   <v-btn large color="primary" :disabled="!valid" @click="createPlayer">Add Player<v-icon class="ml-2">mdi-account-plus-outline</v-icon></v-btn>
                   <v-btn large color="orange lighten-1" dark class="mx-2" @click="reset">Reset<v-icon class="ml-2">mdi-autorenew</v-icon></v-btn>
                   <!-- <v-btn large color="error" @click="dialog = false, addAlert = false">Close</v-btn> -->
@@ -74,12 +74,11 @@
                 <v-container>
                   <v-text-field v-model="singlePlayer.firstname" label="First Name"></v-text-field>
                   <v-text-field v-model="singlePlayer.lastname" label="Last Name"></v-text-field>
-                  <v-text-field v-model="singlePlayer.team" label="Team"></v-text-field>
+                  <v-select :rules="teamRules" :items="items" v-model="singlePlayer.team" label="Team"></v-select>
                   <v-text-field v-model="singlePlayer.height" label="Height"></v-text-field>
-                  <v-text-field v-model="singlePlayer.weight" label="Weight"></v-text-field>
-                  <v-text-field v-model="singlePlayer.age" label="Age"></v-text-field>
+                  <v-text-field v-model="singlePlayer.weight" :rules="numberRules" label="Weight"></v-text-field>
+                  <v-text-field v-model="singlePlayer.age" :rules="numberRules" label="Age"></v-text-field>
                   <v-btn class="my-1 mr-1" large color="primary" dark @click="updatePlayer(playerID)">Update Player<v-icon class="ml-2">mdi-pencil</v-icon></v-btn>
-                  <v-btn large color="orange lighten-1" dark class="my-1" @click="reset">Reset Form<v-icon class="ml-2">mdi-autorenew</v-icon></v-btn>
                 </v-container>
               </v-form>
         </v-card>
@@ -156,6 +155,7 @@ export default {
     return {
       valid: true,
       teamRules: [v => !!v || 'Team is required'],
+      numberRules: [v => Number.isInteger(Number(v)) || "The value must be an integer number"],
       searchString: "",
       dialog: false,
       firstName: "",
@@ -209,6 +209,16 @@ export default {
       this.weight = null,
       this.age = null
     },
+    resetEditPlayer() {
+      this.$refs.form.reset();
+
+      this.firstName = "",
+      this.lastName = "",
+      this.team = "",
+      this.height = "",
+      this.weight = null,
+      this.age = null
+    },
     async deletePlayer(id) {
       console.log('deleted')
       await PlayerService.deletePlayer(id)
@@ -238,7 +248,7 @@ export default {
       console.log('getPlayer called ' + this.singlePlayer)
     },
     async updatePlayer(id) {
-      this.$refs.form.validate()
+      // this.$refs.form.validate()
       console.log(this.singlePlayer.team)
       await PlayerService.updatePlayer(id, this.singlePlayer.firstname, this.singlePlayer.lastname, this.singlePlayer.team, this.singlePlayer.height, this.singlePlayer.weight, this.singlePlayer.age)
       this.alert = true

@@ -71,15 +71,15 @@
                       >
                         Player Added Successfully
                       </v-alert>
-                    <v-form v-on:submit.prevent="mutate()" ref="form">
+                    <v-form v-on:submit.prevent="mutate()" v-model="valid" ref="form">
                       <v-container>
                         <v-text-field v-model="firstname" label="First Name"></v-text-field>
                         <v-text-field v-model="lastname" label="Last Name"></v-text-field>
-                        <v-text-field v-model="team" label="team"></v-text-field>
+                        <v-select :items="items" :rules="teamRules" required v-model="team" label="team"></v-select>
                         <v-text-field v-model="height" label="Height"></v-text-field>
-                        <v-text-field v-model="weight" label="Weight"></v-text-field>
-                        <v-text-field v-model="age" label="Age"></v-text-field>
-                        <v-btn large color="primary" :disabled="loading" @click="mutate(); addPlayer()">Add Player<v-icon class="ml-2">mdi-account-plus-outline</v-icon></v-btn>
+                        <v-text-field v-model="weight" :rules="numberRules" label="Weight"></v-text-field>
+                        <v-text-field v-model="age" :rules="numberRules" label="Age"></v-text-field>
+                        <v-btn large color="primary" :disabled="!valid" @click="mutate(); addPlayer()">Add Player<v-icon class="ml-2">mdi-account-plus-outline</v-icon></v-btn>
                         <v-btn large color="orange lighten-1" dark class="mx-2" @click="reset">Reset<v-icon class="ml-2">mdi-autorenew</v-icon></v-btn>
                         <p v-if="error">An error occured: {{ error }}</p>
                       </v-container>
@@ -111,12 +111,11 @@
                       <v-container>
                         <v-text-field v-model="ufirstname" label="First Name"></v-text-field>
                         <v-text-field v-model="ulastname" label="Last Name"></v-text-field>
-                        <v-text-field v-model="uteam" label="team"></v-text-field>
+                        <v-select :items="items" :rules="teamRules" required v-model="uteam" label="team"></v-select>
                         <v-text-field v-model="uheight" label="Height"></v-text-field>
-                        <v-text-field v-model="uweight" label="Weight"></v-text-field>
-                        <v-text-field v-model="uage" label="Age"></v-text-field>
+                        <v-text-field v-model="uweight" :rules="numberRules" label="Weight"></v-text-field>
+                        <v-text-field v-model="uage" :rules="numberRules" label="Age"></v-text-field>
                         <v-btn large color="primary" :disabled="loading" @click="updatePlayer">Update Player<v-icon class="ml-2">mdi-account-plus-outline</v-icon></v-btn>
-                        <v-btn large color="orange lighten-1" dark class="mx-2" @click="reset">Reset<v-icon class="ml-2">mdi-autorenew</v-icon></v-btn>
                         <p v-if="error">An error occured: {{ error }}</p>
                       </v-container>
                     </v-form>
@@ -140,6 +139,7 @@
             <v-row>
               <v-col v-for="(player, i) in data.Players" :key="i">
                 <v-card class="mx-auto elevation-6" width="350">
+                   <v-img class="cardImg" :src="require(`../assets/logos/${player.team}.gif`)" height="70px" width="100px"> </v-img>
                   <v-card-text>
                     <p
                       class="title text--primary text-uppercase"
@@ -203,6 +203,10 @@ export default {
     addAlert: false,
     beginUpdatePlayer: false,
     alertToggle: false,
+    items: ['76ers', 'bucks', 'bulls', 'cavaliers', 'celtics', 'clippers', 'grizzlies', 'hawks', 'heat', 'hornets', 'jazz', 'kings', 'knicks', 'lakers', 'magic', 'mavericks', 'nets', 'nuggets', 'pacers', 'pelicans', 'pistons', 'raptors', 'rockets', 'spurs', 'suns', 'thunder', 'timberwolves', 'trailblazers', 'warriors', 'wizards'],
+    teamRules: [v => !!v || 'Team is required'],
+    numberRules: [v => Number.isInteger(Number(v)) || "The value must be an integer number"],
+    valid: true,
   }),
 
   methods: {
@@ -363,7 +367,12 @@ export default {
   z-index: 99;
   margin: 35px auto 0 auto;
   border-radius: 30px;
-  
-  
+}
+
+.cardImg {
+  position: absolute;
+  z-index: 0;
+  right: 5%;
+  top: 20%;
 }
 </style>

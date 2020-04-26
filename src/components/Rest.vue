@@ -35,15 +35,15 @@
                 Player Added Successfully
                 </v-alert>
 
-              <v-form ref="form">
+              <v-form v-model="valid" ref="form">
                 <v-container>
                   <v-text-field v-model="firstname" label="First Name"></v-text-field>
                   <v-text-field v-model="lastname" label="Last Name"></v-text-field>
-                  <v-text-field v-model="team" label="Team"></v-text-field>
+                  <v-select :items="items" v-model="team" :rules="teamRules" required label="Team"></v-select>
                   <v-text-field v-model="height" label="Height"></v-text-field>
                   <v-text-field v-model="weight" label="Weight"></v-text-field>
                   <v-text-field v-model="age" label="Age"></v-text-field>
-                  <v-btn large color="primary" @click="createPlayer">Add Player<v-icon class="ml-2">mdi-account-plus-outline</v-icon></v-btn>
+                  <v-btn large color="primary" :disabled="!valid" @click="createPlayer">Add Player<v-icon class="ml-2">mdi-account-plus-outline</v-icon></v-btn>
                   <v-btn large color="orange lighten-1" dark class="mx-2" @click="reset">Reset<v-icon class="ml-2">mdi-autorenew</v-icon></v-btn>
                   <!-- <v-btn large color="error" @click="dialog = false, addAlert = false">Close</v-btn> -->
                 </v-container>
@@ -54,7 +54,6 @@
 
     <!-- Edit Dialog -->
     <v-row justify="center">
-      <!-- <v-btn color="primary" class="mb-5" dark @click.stop="dialog = true">Add Player</v-btn> -->
 
       <v-dialog v-model="editDialog" max-width="500">
         <v-card>
@@ -81,7 +80,6 @@
                   <v-text-field v-model="singlePlayer.age" label="Age"></v-text-field>
                   <v-btn class="my-1 mr-1" large color="primary" dark @click="updatePlayer(playerID)">Update Player<v-icon class="ml-2">mdi-pencil</v-icon></v-btn>
                   <v-btn large color="orange lighten-1" dark class="my-1" @click="reset">Reset Form<v-icon class="ml-2">mdi-autorenew</v-icon></v-btn>
-                  <!-- <v-btn large color="error" @click="editDialog = false; alert = false">Close</v-btn> -->
                 </v-container>
               </v-form>
         </v-card>
@@ -119,7 +117,8 @@
     <v-container>
       <v-row>
         <v-col v-for="player in searchPlayers" :key="player._id">
-          <v-card class="mx-auto" width="350">
+          <v-card class="cards mx-auto elevation-6" width="350">
+            <v-img class="cardImg" :src="require(`../assets/logos/${player.team}.gif`)" height="70px" width="100px"> </v-img>
                 <v-card-text>
                   <p
                     class="title text--primary text-uppercase">{{player.firstname}} {{player.lastname}}</p>
@@ -130,6 +129,8 @@
                     Age: {{player.age}} 
                   </div>
                 </v-card-text>
+                
+                <!-- <v-img src="../assets/logos/jazz.gif" height="100px" width="150px"> </v-img> -->
                 <v-card-actions>
                   <v-btn @click="addRoster(player._id)" dark color="green accent-4"><v-icon>mdi-account-plus-outline</v-icon></v-btn>
                   <v-spacer></v-spacer>
@@ -153,6 +154,8 @@ import { mapMutations } from 'vuex'
 export default {
   data() {
     return {
+      valid: true,
+      teamRules: [v => !!v || 'Team is required'],
       searchString: "",
       dialog: false,
       firstName: "",
@@ -172,6 +175,7 @@ export default {
       alert: false,
       addAlert: false,
       alertToggle: false,
+      items: ['76ers', 'bucks', 'bulls', 'cavaliers', 'celtics', 'clippers', 'grizzlies', 'hawks', 'heat', 'hornets', 'jazz', 'kings', 'knicks', 'lakers', 'magic', 'mavericks', 'nets', 'nuggets', 'pacers', 'pelicans', 'pistons', 'raptors', 'rockets', 'spurs', 'suns', 'thunder', 'timberwolves', 'trailblazers', 'warriors', 'wizards']
     }
   },
 
@@ -234,6 +238,7 @@ export default {
       console.log('getPlayer called ' + this.singlePlayer)
     },
     async updatePlayer(id) {
+      this.$refs.form.validate()
       console.log(this.singlePlayer.team)
       await PlayerService.updatePlayer(id, this.singlePlayer.firstname, this.singlePlayer.lastname, this.singlePlayer.team, this.singlePlayer.height, this.singlePlayer.weight, this.singlePlayer.age)
       this.alert = true
@@ -264,7 +269,6 @@ export default {
   top: 0;
   left: 0;
   right: 0;
-  /* margin-left: -162.5px; Negative half of width. */
   font-size: 10px;
   z-index: 99;
   margin: 35px auto 0 auto;
@@ -272,5 +276,19 @@ export default {
   
   
 }
+
+.cardImg {
+  position: absolute;
+  z-index: 0;
+  right: 5%;
+  top: 20%;
+
+  
+}
+
+/* .cards {
+  background-image: url(../assets/logos/jazz.gif);
+  background-position: right;
+} */
 
 </style>

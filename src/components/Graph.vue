@@ -139,7 +139,7 @@
           <v-container>
             <v-row>
               <v-col v-for="(player, i) in data.Players" :key="i">
-                <v-card class="mx-auto" width="350">
+                <v-card class="mx-auto elevation-6" width="350">
                   <v-card-text>
                     <p
                       class="title text--primary text-uppercase"

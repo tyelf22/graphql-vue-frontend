@@ -28,12 +28,12 @@
                 <v-col class="text-center" cols="12" sm="3">
                     <v-icon large color="primary">mdi-numeric-1-circle</v-icon>
                     <h5 class="mt-4">GraphQL API</h5>
-                    <p class="mt-4">The first section demonstrates full CRUD operation with GraphQL</p>
+                    <p class="mt-4">The first section demonstrates full CRUD operations with GraphQL</p>
                 </v-col>
                 <v-col class="text-center" cols="12" sm="3">
                     <v-icon large color="primary">mdi-numeric-2-circle</v-icon>
                     <h5 class="mt-4">RESTful API</h5>
-                    <p class="mt-4">The second section demonstrates full CRUD operation with REST API</p>
+                    <p class="mt-4">The second section demonstrates full CRUD operations with REST API</p>
                 </v-col>
                 <v-col class="text-center" cols="12" sm="3">
                     <v-icon large color="primary">mdi-numeric-3-circle</v-icon>

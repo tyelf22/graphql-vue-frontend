@@ -14,6 +14,7 @@
             <v-row>
                 <v-col v-for="(player, index) in playerStore" :key="index"> 
                     <v-card class="mx-auto" width="350">
+                        <v-img class="cardImg" :src="require(`../assets/logos/${player.team}.gif`)" height="70px" width="100px"> </v-img>
                     <v-card-text>
                         <p class="title text--primary text-uppercase">{{player.firstname}} {{player.lastname}}</p>
                         <p class="text-uppercase">{{player.team}}</p>
@@ -57,5 +58,13 @@ export default {
 </script>
 
 <style scoped>
+.cardImg {
+  position: absolute;
+  z-index: 0;
+  right: 5%;
+  top: 20%;
+
+  
+}
 
 </style>

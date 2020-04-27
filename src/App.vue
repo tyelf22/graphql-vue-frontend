@@ -10,7 +10,7 @@
 
     <v-spacer></v-spacer>
     
-    <router-link to="/">
+    <router-link exact to="/">
       <v-btn class="mx-2" icon>
         <v-icon large>mdi-home-variant-outline</v-icon>
       </v-btn>
@@ -30,8 +30,10 @@
 
     <router-link to="/roster">
       <v-btn class="mx-2" icon>
-        <v-icon large>mdi-cart-outline</v-icon>
+        <v-icon large>mdi-cart-outline</v-icon> 
+        <v-badge v-if="playerCount" overlap color="red" offset-y="-6" offset-x="1" :content="playerCount"></v-badge>
       </v-btn>
+    
     </router-link> 
 
     
@@ -46,7 +48,7 @@
 </template>
 
 <script>
-
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'App',
@@ -54,5 +56,22 @@ export default {
   data: () => ({
     //
   }),
+
+  mounted() {
+    console.log(this.playerCount)
+  },
+
+  computed: {
+    ...mapGetters(['playerCount'])
+  }
 };
 </script>
+
+
+<style scoped>
+
+.router-link-active {
+  color: white;
+}
+
+</style>

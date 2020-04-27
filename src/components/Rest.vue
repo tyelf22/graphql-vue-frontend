@@ -43,8 +43,8 @@
                   <v-text-field v-model="height" label="Height"></v-text-field>
                   <v-text-field v-model="weight" :rules="numberRules" label="Weight"></v-text-field>
                   <v-text-field v-model="age" :rules="numberRules" label="Age"></v-text-field>
-                  <v-btn large color="primary" :disabled="!valid" @click="createPlayer">Add Player<v-icon class="ml-2">mdi-account-plus-outline</v-icon></v-btn>
-                  <v-btn large color="orange lighten-1" dark class="mx-2" @click="reset">Reset<v-icon class="ml-2">mdi-autorenew</v-icon></v-btn>
+                  <v-btn rounded large color="primary" :disabled="!valid" @click="createPlayer">Add Player<v-icon class="ml-2">mdi-account-plus-outline</v-icon></v-btn>
+                  <v-btn rounded large color="orange lighten-1" dark class="mx-2" @click="reset">Reset<v-icon class="ml-2">mdi-autorenew</v-icon></v-btn>
                   <!-- <v-btn large color="error" @click="dialog = false, addAlert = false">Close</v-btn> -->
                 </v-container>
               </v-form>
@@ -78,7 +78,7 @@
                   <v-text-field v-model="singlePlayer.height" label="Height"></v-text-field>
                   <v-text-field v-model="singlePlayer.weight" :rules="numberRules" label="Weight"></v-text-field>
                   <v-text-field v-model="singlePlayer.age" :rules="numberRules" label="Age"></v-text-field>
-                  <v-btn class="my-1 mr-1" large color="primary" dark @click="updatePlayer(playerID)">Update Player<v-icon class="ml-2">mdi-pencil</v-icon></v-btn>
+                  <v-btn rounded class="my-1 mr-1" large color="primary" dark @click="updatePlayer(playerID)">Update Player<v-icon class="ml-2">mdi-pencil</v-icon></v-btn>
                 </v-container>
               </v-form>
         </v-card>
@@ -131,10 +131,10 @@
                 
                 <!-- <v-img src="../assets/logos/jazz.gif" height="100px" width="150px"> </v-img> -->
                 <v-card-actions>
-                  <v-btn @click="addRoster(player._id)" dark color="green accent-4"><v-icon>mdi-account-plus-outline</v-icon></v-btn>
+                  <v-btn rounded @click="addRoster(player._id)" dark color="green accent-4"><v-icon>mdi-account-plus-outline</v-icon></v-btn>
                   <v-spacer></v-spacer>
-                  <v-btn @click="updatePlayerDialog(player._id)" color="primary" dark><v-icon>mdi-pencil</v-icon></v-btn>
-                  <v-btn @click="deletePlayer(player._id)" color="red" dark><v-icon>mdi-delete</v-icon></v-btn>
+                  <v-btn rounded @click="updatePlayerDialog(player._id)" color="primary" dark><v-icon>mdi-pencil</v-icon></v-btn>
+                  <v-btn rounded @click="deletePlayer(player._id)" color="red" dark><v-icon>mdi-delete</v-icon></v-btn>
                 </v-card-actions>
               </v-card>
         </v-col>

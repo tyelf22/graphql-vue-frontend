@@ -8,7 +8,9 @@ export const store = new Vuex.Store({
     playerStore: [],
     },
     getters: {
-        
+      playerCount: state => {
+          return state.playerStore.length
+      }  
     },
     mutations: {
        addPlayerStore (state, player) {

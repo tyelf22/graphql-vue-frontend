@@ -104,7 +104,7 @@
       <v-row>
         <v-col>
           <v-alert v-fade:display.delayed="'none'" class="alert mx-auto" color="green accent-4" v-if="alertToggle" v-model="alertToggle" type="success">
-            Player Added
+             Added To Roster
           </v-alert>
         </v-col>
       </v-row>
@@ -113,7 +113,7 @@
 
 
     <!-- Player Cards -->
-    <v-container>
+    <v-container class="mb-7">
       <v-row>
         <v-col v-for="player in searchPlayers" :key="player._id">
           <v-card class="cards mx-auto elevation-6" width="350">
@@ -296,9 +296,5 @@ export default {
   
 }
 
-/* .cards {
-  background-image: url(../assets/logos/jazz.gif);
-  background-position: right;
-} */
 
 </style>

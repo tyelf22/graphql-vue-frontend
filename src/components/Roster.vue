@@ -10,7 +10,7 @@
             <h3 v-if="!playerStore.length" class="py-5 title" >You haven't added players to your roster yet...</h3> 
         </v-container>
 
-        <v-container>
+        <v-container class="mb-7">
             <v-row>
                 <v-col v-for="(player, index) in playerStore" :key="index"> 
                     <v-card class="mx-auto" width="350">

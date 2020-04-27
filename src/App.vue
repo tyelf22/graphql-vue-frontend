@@ -44,6 +44,8 @@
     <v-content>
       <router-view></router-view>
     </v-content>
+
+    <v-footer dark color="primary" absolute> <v-row justify="center"> &copy; <strong>Tyson Elfors</strong>{{ new Date().getFullYear() }} - For educational purposes only </v-row> </v-footer>
   </v-app>
 </template>
 
@@ -72,6 +74,10 @@ export default {
 
 .router-link-active {
   color: white;
+}
+
+strong {
+  margin: 0 4px;
 }
 
 </style>
